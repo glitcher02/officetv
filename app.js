@@ -14,7 +14,8 @@ const CONFIG = {
     latitude: 51.5072,
     longitude: -0.1276,
     zoom: 7,
-    opacity: 0.78
+    opacity: 0.86,
+    tileSize: window.devicePixelRatio >= 2 ? 512 : 256
   },
   refresh: {
     weatherMs: 15 * 60 * 1000,
@@ -226,9 +227,9 @@ function initRainRadar() {
     interactive: false,
     icon: L.divIcon({
       className: "",
-      html: `<div class="office-marker">NOW</div>`,
-      iconSize: [48, 48],
-      iconAnchor: [24, 24]
+      html: `<div class="office-marker"></div>`,
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
     })
   }).addTo(radarMap);
 
@@ -266,16 +267,17 @@ async function loadRainRadar() {
 }
 
 function renderRainRadarFrame(host, frame) {
-  const tileUrl = `${host}${frame.path}/512/{z}/{x}/{y}/2/1_1.png`;
+  const tileUrl = `${host}${frame.path}/${CONFIG.radar.tileSize}/{z}/{x}/{y}/2/1_1.png`;
 
   if (radarLayer) {
     radarMap.removeLayer(radarLayer);
   }
 
   radarLayer = L.tileLayer(tileUrl, {
-    maxZoom: CONFIG.radar.zoom,
+    maxNativeZoom: 7,
+    maxZoom: 12,
     opacity: CONFIG.radar.opacity,
-    tileSize: 512,
+    tileSize: 256,
     zIndex: 30
   }).addTo(radarMap);
 }
