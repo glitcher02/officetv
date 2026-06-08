@@ -7,7 +7,8 @@ const CONFIG = {
   },
   tfl: {
     modes: ["tube", "dlr", "overground", "elizabeth-line"],
-    appKey: "58697ea3709249cca86047c14bef7caf"
+    appKey: "58697ea3709249cca86047c14bef7caf",
+    maxRows: 5
   },
   refresh: {
     weatherMs: 15 * 60 * 1000,
@@ -235,7 +236,13 @@ function renderTflDisruptions(disruptions) {
     return;
   }
 
-  elements.tube.innerHTML = rows.map((row) => {
+  const visibleRows = rows.slice(0, CONFIG.tfl.maxRows);
+  const hiddenCount = rows.length - visibleRows.length;
+  const moreRow = hiddenCount > 0 ? `
+    <div class="more-row">${hiddenCount} more TfL ${hiddenCount === 1 ? "item" : "items"} hidden to keep this screen tidy</div>
+  ` : "";
+
+  elements.tube.innerHTML = visibleRows.map((row) => {
     const statusMeta = getHighestStatus(row.statuses);
     const lineColor = getLineColor(row.lineName);
     const tags = getSortedStatuses(row.statuses).map((status) => {
@@ -254,7 +261,7 @@ function renderTflDisruptions(disruptions) {
         </div>
       </article>
     `;
-  }).join("");
+  }).join("") + moreRow;
 }
 
 function normaliseDisruptions(disruptions) {

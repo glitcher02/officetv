@@ -35,9 +35,10 @@ body {
 
 .dashboard {
   display: grid;
-  gap: 24px;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 16px;
   min-height: 100vh;
-  padding: 32px;
+  padding: 20px;
 }
 
 .topbar,
@@ -51,14 +52,13 @@ body {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 32px;
-  padding-bottom: 8px;
+  gap: 24px;
 }
 
 .eyebrow {
-  margin: 0 0 8px;
+  margin: 0 0 5px;
   color: var(--teal);
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -78,26 +78,26 @@ h3 {
 }
 
 h1 {
-  font-size: 4rem;
+  font-size: 2.75rem;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.45rem;
 }
 
 h3 {
-  font-size: 1.55rem;
+  font-size: 1.12rem;
 }
 
 .clock {
   display: grid;
   justify-items: end;
   flex: 0 0 auto;
-  min-width: 300px;
+  min-width: 230px;
 }
 
 #time {
-  font-size: 5.5rem;
+  font-size: 4rem;
   font-weight: 850;
   line-height: 0.95;
   font-variant-numeric: tabular-nums;
@@ -105,14 +105,14 @@ h3 {
 
 #date {
   color: var(--muted);
-  font-size: 1.45rem;
+  font-size: 1.05rem;
   font-weight: 700;
 }
 
 .overview {
   display: grid;
-  grid-template-columns: minmax(340px, 0.9fr) minmax(420px, 1.1fr);
-  gap: 24px;
+  grid-template-columns: minmax(320px, 0.85fr) minmax(440px, 1.15fr);
+  gap: 16px;
 }
 
 .module,
@@ -125,29 +125,29 @@ h3 {
 
 .module {
   display: grid;
-  gap: 24px;
-  min-height: 260px;
-  padding: 28px;
+  gap: 14px;
+  min-height: 178px;
+  padding: 18px;
 }
 
 .module-heading {
   display: flex;
   align-items: start;
   justify-content: space-between;
-  gap: 20px;
+  gap: 14px;
 }
 
 .weather-now {
   display: grid;
-  grid-template-columns: 136px 1fr;
+  grid-template-columns: 96px 1fr;
   align-items: center;
-  gap: 28px;
+  gap: 18px;
 }
 
 .weather-visual {
   position: relative;
-  width: 136px;
-  height: 136px;
+  width: 96px;
+  height: 96px;
 }
 
 .weather-visual span {
@@ -156,10 +156,10 @@ h3 {
 }
 
 .sun {
-  width: 74px;
-  height: 74px;
-  top: 14px;
-  left: 12px;
+  width: 52px;
+  height: 52px;
+  top: 10px;
+  left: 8px;
   border-radius: 50%;
   background: var(--amber);
   box-shadow: 0 0 45px rgba(243, 178, 63, 0.42);
@@ -180,37 +180,37 @@ h3 {
 }
 
 .cloud-one {
-  width: 96px;
-  height: 42px;
-  right: 8px;
-  bottom: 36px;
+  width: 68px;
+  height: 30px;
+  right: 6px;
+  bottom: 25px;
 }
 
 .cloud-one::before {
-  width: 48px;
-  height: 48px;
-  left: 12px;
-  bottom: 14px;
-}
-
-.cloud-one::after {
-  width: 58px;
-  height: 58px;
-  right: 10px;
+  width: 34px;
+  height: 34px;
+  left: 8px;
   bottom: 10px;
 }
 
+.cloud-one::after {
+  width: 41px;
+  height: 41px;
+  right: 7px;
+  bottom: 7px;
+}
+
 .cloud-two {
-  width: 72px;
-  height: 32px;
-  left: 18px;
-  bottom: 24px;
+  width: 51px;
+  height: 23px;
+  left: 13px;
+  bottom: 17px;
   opacity: 0.55;
 }
 
 .rain {
-  width: 8px;
-  height: 34px;
+  width: 6px;
+  height: 24px;
   bottom: 0;
   border-radius: 999px;
   background: #58b7ff;
@@ -218,11 +218,11 @@ h3 {
 }
 
 .rain-one {
-  left: 52px;
+  left: 37px;
 }
 
 .rain-two {
-  left: 86px;
+  left: 61px;
 }
 
 .weather-visual.clear .cloud,
@@ -240,30 +240,30 @@ h3 {
 
 .temperature {
   margin: 0;
-  font-size: 5rem;
+  font-size: 3.5rem;
   font-weight: 850;
   line-height: 0.95;
   font-variant-numeric: tabular-nums;
 }
 
 .condition {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: var(--muted);
-  font-size: 1.4rem;
+  font-size: 1.05rem;
   font-weight: 750;
 }
 
 .weather-details {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
   margin: 0;
 }
 
 .weather-details div,
 .forecast-day {
-  min-height: 86px;
-  padding: 18px;
+  min-height: 62px;
+  padding: 12px;
   background: var(--panel-strong);
   border: 1px solid rgba(246, 243, 234, 0.09);
   border-radius: 8px;
@@ -272,14 +272,14 @@ h3 {
 dt,
 .forecast-label {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
 }
 
 dd {
-  margin: 8px 0 0;
-  font-size: 2rem;
+  margin: 5px 0 0;
+  font-size: 1.45rem;
   font-weight: 850;
   font-variant-numeric: tabular-nums;
 }
@@ -287,61 +287,64 @@ dd {
 .forecast-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
 }
 
 .forecast-day {
   display: grid;
-  gap: 8px;
+  gap: 5px;
 }
 
 .forecast-temp {
-  font-size: 2.2rem;
+  font-size: 1.55rem;
   font-weight: 850;
   font-variant-numeric: tabular-nums;
 }
 
 .forecast-condition {
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 700;
 }
 
 .transport {
   display: grid;
-  gap: 20px;
-  padding: 28px;
+  gap: 12px;
+  min-height: 0;
+  padding: 18px;
 }
 
 .transport-heading {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
 }
 
 .updated,
 .muted {
   margin: 0;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 
 .status-list {
   display: grid;
-  gap: 14px;
+  gap: 9px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .status-row {
   display: grid;
-  grid-template-columns: 92px 1fr;
-  gap: 20px;
-  min-height: 124px;
-  padding: 18px;
+  grid-template-columns: 64px 1fr;
+  gap: 14px;
+  min-height: 86px;
+  padding: 12px;
   background: var(--panel-strong);
   border: 1px solid rgba(246, 243, 234, 0.09);
-  border-left: 8px solid var(--amber);
+  border-left: 6px solid var(--amber);
   border-radius: 8px;
 }
 
@@ -364,62 +367,79 @@ dd {
 .route-mark {
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: #050706;
   color: var(--text);
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   font-weight: 900;
 }
 
 .status-content {
   display: grid;
-  gap: 10px;
+  gap: 7px;
 }
 
 .row-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
+}
+
+.row-top h3 {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .status-tags {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 6px;
 }
 
 .status-tag {
-  padding: 7px 10px;
+  padding: 5px 8px;
   border-radius: 8px;
   background: rgba(246, 243, 234, 0.11);
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.68rem;
   font-weight: 850;
   text-transform: uppercase;
 }
 
 .status-row p {
+  display: -webkit-box;
+  overflow: hidden;
   margin: 0;
   color: #ddd8ca;
-  font-size: 1.25rem;
-  line-height: 1.35;
+  font-size: 0.95rem;
+  line-height: 1.28;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .empty-state {
   display: grid;
-  min-height: 124px;
+  min-height: 86px;
   place-items: center;
-  padding: 26px;
+  padding: 18px;
   background: var(--panel-strong);
   border: 1px solid rgba(246, 243, 234, 0.09);
   border-radius: 8px;
   color: var(--muted);
-  font-size: 1.5rem;
+  font-size: 1.05rem;
   font-weight: 800;
+  text-align: center;
+}
+
+.more-row {
+  padding: 8px 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 750;
   text-align: center;
 }
 
