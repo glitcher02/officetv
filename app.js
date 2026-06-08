@@ -8,11 +8,18 @@ const CONFIG = {
   tfl: {
     modes: ["tube", "dlr", "overground", "elizabeth-line"],
     appKey: "58697ea3709249cca86047c14bef7caf",
-    maxRows: 5
+    maxRows: 4
+  },
+  radar: {
+    latitude: 51.5072,
+    longitude: -0.1276,
+    zoom: 7,
+    opacity: 0.78
   },
   refresh: {
     weatherMs: 15 * 60 * 1000,
     tflMs: 2 * 60 * 1000,
+    radarMs: 5 * 60 * 1000,
     clockMs: 1000
   }
 };
@@ -26,10 +33,15 @@ const elements = {
   windSpeed: document.getElementById("windSpeed"),
   weatherVisual: document.getElementById("weatherVisual"),
   forecast: document.getElementById("forecast"),
+  radarMap: document.getElementById("radarMap"),
+  radarUpdated: document.getElementById("radarUpdated"),
   tube: document.getElementById("tube"),
   tflUpdated: document.getElementById("tflUpdated"),
   weatherTitle: document.getElementById("weather-title")
 };
+
+let radarMap;
+let radarLayer;
 
 const STATUS_META = {
   partSuspended: { label: "Part suspended", className: "severe", rank: 6 },
@@ -181,6 +193,91 @@ function renderForecast(daily = {}) {
       </article>
     `;
   }).join("");
+}
+
+function initRainRadar() {
+  if (!elements.radarMap) {
+    return;
+  }
+
+  if (typeof L === "undefined") {
+    elements.radarMap.innerHTML = `<div class="radar-error">Radar map unavailable</div>`;
+    elements.radarUpdated.textContent = "Radar unavailable";
+    return;
+  }
+
+  radarMap = L.map(elements.radarMap, {
+    attributionControl: false,
+    boxZoom: false,
+    doubleClickZoom: false,
+    dragging: false,
+    keyboard: false,
+    scrollWheelZoom: false,
+    tap: false,
+    touchZoom: false,
+    zoomControl: false
+  }).setView([CONFIG.radar.latitude, CONFIG.radar.longitude], CONFIG.radar.zoom);
+
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    maxZoom: 19
+  }).addTo(radarMap);
+
+  L.marker([CONFIG.radar.latitude, CONFIG.radar.longitude], {
+    interactive: false,
+    icon: L.divIcon({
+      className: "",
+      html: `<div class="office-marker">NOW</div>`,
+      iconSize: [48, 48],
+      iconAnchor: [24, 24]
+    })
+  }).addTo(radarMap);
+
+  setTimeout(() => radarMap.invalidateSize(), 250);
+}
+
+async function loadRainRadar() {
+  if (!radarMap) {
+    return;
+  }
+
+  try {
+    const response = await fetch("https://api.rainviewer.com/public/weather-maps.json", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Rain radar returned ${response.status}`);
+    }
+
+    const data = await response.json();
+    const frames = data.radar?.past || [];
+    const latestFrame = frames[frames.length - 1];
+
+    if (!data.host || !latestFrame?.path) {
+      throw new Error("Rain radar frame unavailable");
+    }
+
+    renderRainRadarFrame(data.host, latestFrame);
+    elements.radarUpdated.textContent = `Radar ${timeFormatter.format(new Date(latestFrame.time * 1000))}`;
+  } catch (error) {
+    elements.radarUpdated.textContent = "Radar unavailable";
+    console.error(error);
+  }
+}
+
+function renderRainRadarFrame(host, frame) {
+  const tileUrl = `${host}${frame.path}/512/{z}/{x}/{y}/2/1_1.png`;
+
+  if (radarLayer) {
+    radarMap.removeLayer(radarLayer);
+  }
+
+  radarLayer = L.tileLayer(tileUrl, {
+    maxZoom: CONFIG.radar.zoom,
+    opacity: CONFIG.radar.opacity,
+    tileSize: 512,
+    zIndex: 30
+  }).addTo(radarMap);
 }
 
 async function loadTubeStatus() {
@@ -398,9 +495,12 @@ function escapeHtml(value) {
 }
 
 updateClock();
+initRainRadar();
 loadWeather();
+loadRainRadar();
 loadTubeStatus();
 
 setInterval(updateClock, CONFIG.refresh.clockMs);
 setInterval(loadWeather, CONFIG.refresh.weatherMs);
+setInterval(loadRainRadar, CONFIG.refresh.radarMs);
 setInterval(loadTubeStatus, CONFIG.refresh.tflMs);
