@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Office TV</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="dashboard">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Office TV</p>
+        <h1>London Status Board</h1>
+      </div>
+      <div class="clock" aria-live="polite">
+        <span id="time">--:--</span>
+        <span id="date">Loading date</span>
+      </div>
+    </header>
+
+    <section class="overview" aria-label="Current office information">
+      <section class="module weather-module" aria-labelledby="weather-title">
+        <div class="module-heading">
+          <p class="eyebrow">Weather</p>
+          <h2 id="weather-title">London</h2>
+        </div>
+        <div class="weather-now">
+          <div id="weatherVisual" class="weather-visual unknown" aria-hidden="true">
+            <span class="sun"></span>
+            <span class="cloud cloud-one"></span>
+            <span class="cloud cloud-two"></span>
+            <span class="rain rain-one"></span>
+            <span class="rain rain-two"></span>
+          </div>
+          <div>
+            <p id="temperature" class="temperature">--&deg;</p>
+            <p id="condition" class="condition">Loading weather</p>
+          </div>
+        </div>
+        <dl class="weather-details">
+          <div>
+            <dt>Feels</dt>
+            <dd id="feelsLike">--&deg;</dd>
+          </div>
+          <div>
+            <dt>Wind</dt>
+            <dd id="windSpeed">-- km/h</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="module forecast-module" aria-labelledby="forecast-title">
+        <div class="module-heading">
+          <p class="eyebrow">Forecast</p>
+          <h2 id="forecast-title">Next 3 Days</h2>
+        </div>
+        <div id="forecast" class="forecast-list" aria-live="polite">
+          <p class="muted">Loading forecast</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="transport" aria-labelledby="transport-title">
+      <div class="transport-heading">
+        <div>
+          <p class="eyebrow">TfL Live</p>
+          <h2 id="transport-title">Tube, Elizabeth line, Overground and DLR</h2>
+        </div>
+        <p id="tflUpdated" class="updated">Waiting for update</p>
+      </div>
+      <div id="tube" class="status-list" aria-live="polite">
+        <div class="empty-state">Loading TfL status</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
